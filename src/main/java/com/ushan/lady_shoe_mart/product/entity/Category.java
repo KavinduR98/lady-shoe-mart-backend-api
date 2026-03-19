@@ -1,12 +1,15 @@
 package com.ushan.lady_shoe_mart.product.entity;
 
 import com.ushan.lady_shoe_mart.common.util.AbstractEntity;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.OneToMany;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.util.Date;
+import java.util.List;
 
 @Getter
 @Setter
@@ -34,12 +37,15 @@ public class Category extends AbstractEntity {
     @Column(name = "active", columnDefinition = "BOOLEAN NOT NULL DEFAULT 'false'")
     private Boolean active = Boolean.FALSE;
 
+    @Column(name = "is_active", columnDefinition = "BOOLEAN NOT NULL DEFAULT 'true'")
+    private Boolean isActive = Boolean.TRUE;
+
     @Column(name = "date_created")
     private Date dateCreated;
 
     @Column(name = "date_updated")
     private Date dateUpdated;
 
-    @Column(name = "is_active", columnDefinition = "BOOLEAN NOT NULL DEFAULT 'true'")
-    private Boolean isActive = Boolean.TRUE;
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
+    private List<SubCategory> subCategoryList;
 }
