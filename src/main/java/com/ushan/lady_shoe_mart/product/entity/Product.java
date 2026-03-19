@@ -79,4 +79,8 @@ public class Product extends AbstractEntity {
 
     @Column(name = "date_updated")
     private Date dateUpdated;
+
+    @ManyToOne
+    @JoinColumn(name = "brand_id", referencedColumnName = "id")
+    private Brand brand;
 }
