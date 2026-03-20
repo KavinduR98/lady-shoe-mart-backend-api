@@ -52,6 +52,9 @@ public class Product extends AbstractEntity {
     @Column(name = "selling_price_lk")
     private Double sellingPriceLk;
 
+    @Column(name = "image_url")
+    private String imageUrl;
+
     @Column(name = "discount_type", columnDefinition = "ENUM('VALUE', 'PERCENTAGE')")
     @Enumerated(EnumType.STRING)
     private DiscountType discountType;
