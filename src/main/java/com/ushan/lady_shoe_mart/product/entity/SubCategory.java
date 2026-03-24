@@ -24,7 +24,7 @@ public class SubCategory extends AbstractEntity {
     @Column(name = "index_seq")
     private Integer indexSeq;
 
-    @Column(name = "active", columnDefinition = "BOOLEAN NOT NULL DEFAULT 'false'")
+    @Column(name = "active", columnDefinition = "BOOLEAN NOT NULL DEFAULT 0")
     private Boolean active = Boolean.FALSE;
 
     @Column(name = "date_created")
@@ -33,7 +33,7 @@ public class SubCategory extends AbstractEntity {
     @Column(name = "date_updated")
     private Date dateUpdated;
 
-    @Column(name = "is_active", columnDefinition = "BOOLEAN NOT NULL DEFAULT 'true'")
+    @Column(name = "is_active", columnDefinition = "BOOLEAN NOT NULL DEFAULT 1")
     private Boolean isActive = Boolean.TRUE;
 
     @ManyToOne(fetch = FetchType.LAZY)

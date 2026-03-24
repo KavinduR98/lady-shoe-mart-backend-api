@@ -34,10 +34,10 @@ public class Category extends AbstractEntity {
     @Column(name = "index_seq")
     private Integer indexSeq;
 
-    @Column(name = "active", columnDefinition = "BOOLEAN NOT NULL DEFAULT 'false'")
+    @Column(name = "active", columnDefinition = "BOOLEAN NOT NULL DEFAULT 0")
     private Boolean active = Boolean.FALSE;
 
-    @Column(name = "is_active", columnDefinition = "BOOLEAN NOT NULL DEFAULT 'true'")
+    @Column(name = "is_active", columnDefinition = "BOOLEAN NOT NULL DEFAULT 1")
     private Boolean isActive = Boolean.TRUE;
 
     @Column(name = "date_created")
