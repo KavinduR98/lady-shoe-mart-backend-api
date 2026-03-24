@@ -22,9 +22,10 @@ public class BrandService implements IBrandService{
 
     @Autowired
     private BrandRepository brandRepository;
-
     @Autowired
-    ModelMapper modelMapper;
+    private ModelMapper modelMapper;
+    @Autowired
+    private IImageService imageService;
 
     @Transactional
     @Override
@@ -42,18 +43,19 @@ public class BrandService implements IBrandService{
             brandCodeIsExist(brand.getBrandCode());
         }
         com.ushan.lady_shoe_mart.product.entity.Brand brandEntity = new com.ushan.lady_shoe_mart.product.entity.Brand();
-        brandEntity.setImage("test-image-name");
+        brandEntity.setImage(imageService.uploadFile(brand.getImage(), ShoeMartConstant.IMAGE_FOLDER_BRAND, ShoeMartConstant.IMAGE_PREFIX_BRAND));
         brandEntity.setName(brand.getName());
         brandEntity.setBrandCode(brand.getBrandCode());
         brandEntity.setIndexSeq(brand.getIndexSeq() == null || brand.getIndexSeq() < 1 ? 100000 : brand.getIndexSeq());
         brandEntity.setIsActive(Boolean.TRUE);
+        brandEntity.setActive(Boolean.TRUE);
         brandEntity.setDateCreated(new Date());
         brandEntity.setDateUpdated(new Date());
         brandRepository.save(brandEntity);
         log.info("Successfully saved Brand : " + brandEntity.getId());
 
         Brand mappedBrand = modelMapper.map(brandEntity, Brand.class);
-        mappedBrand.setImage(ShoeMartConstant.IMAGE_FOLDER_BRAND + "/" + "test-image-name");
+        mappedBrand.setImage(ShoeMartConstant.IMAGE_FOLDER_BRAND + "/" + brandEntity.getImage());
         response.setMessage("Successfully saved Brand");
         response.setStatus(HttpStatus.CREATED.value());
         response.setObject(mappedBrand);
