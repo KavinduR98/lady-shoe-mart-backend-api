@@ -1,9 +1,11 @@
 package com.ushan.lady_shoe_mart.common.util;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
+import lombok.Setter;
+import org.springframework.http.HttpStatus;
 
-import java.time.LocalDateTime;
+import java.io.Serial;
+import java.io.Serializable;
 
 /**
  * Every API response is wrapped in this structure.
@@ -11,30 +13,49 @@ import java.time.LocalDateTime;
  */
 
 @Getter
-@JsonInclude(JsonInclude.Include.NON_NULL)
-public class ApiResponse<T> {
+@Setter
+public class ApiResponse<T> implements Serializable {
 
-    private final boolean success;
-    private final String message;
-    private final T data;
-    private final LocalDateTime timestamp;
+    @Serial
+    private static final long serialVersionUID = 1L;
 
-    private ApiResponse(boolean success, String message, T data) {
-        this.success = success;
+    private int status;
+    private String message;
+    private T object;
+
+    public ApiResponse(){}
+
+    public ApiResponse(int status, String message, T object) {
+        this.status = status;
         this.message = message;
-        this.data = data;
-        this.timestamp = LocalDateTime.now();
+        this.object = object;
     }
 
     public static <T> ApiResponse<T> success(String message, T data) {
-        return new ApiResponse<>(true, message, data);
+        return new ApiResponse<>(HttpStatus.OK.value(), message, data);
     }
 
     public static <T> ApiResponse<T> success(String message) {
-        return new ApiResponse<>(true, message, null);
+        return new ApiResponse<>(HttpStatus.OK.value(), message, null);
     }
 
     public static <T> ApiResponse<T> error(String message) {
-        return new ApiResponse<>(false, message, null);
+        return new ApiResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), message, null);
+    }
+
+    public static <T> ApiResponse<T> error(int status, String message) {
+        return new ApiResponse<>(status, message, null);
+    }
+
+    public static <T> ApiResponse<T> badRequest(String message) {
+        return new ApiResponse<>(HttpStatus.BAD_REQUEST.value(), message, null);
+    }
+
+    public static <T> ApiResponse<T> notFound(String message) {
+        return new ApiResponse<>(HttpStatus.NOT_FOUND.value(), message, null);
+    }
+
+    public static <T> ApiResponse<T> unauthorized(String message) {
+        return new ApiResponse<>(HttpStatus.UNAUTHORIZED.value(), message, null);
     }
 }

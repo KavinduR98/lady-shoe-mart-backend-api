@@ -19,7 +19,7 @@ public class Product extends AbstractEntity {
     @Column(name = "product_name")
     private String productName;
 
-    @Column(name = "is_active", columnDefinition = "BOOLEAN NOT NULL DEFAULT 'true'")
+    @Column(name = "is_active", columnDefinition = "BOOLEAN NOT NULL DEFAULT 1")
     private Boolean isActive = Boolean.TRUE;
 
     @Column(name = "stock")
@@ -28,7 +28,7 @@ public class Product extends AbstractEntity {
     @Column(name = "product_tags")
     private String productTags;
 
-    @Column(name = "active", columnDefinition = "BOOLEAN NOT NULL DEFAULT 'false'")
+    @Column(name = "active", columnDefinition = "BOOLEAN NOT NULL DEFAULT 0")
     private Boolean active = Boolean.FALSE;
 
     @Column(name = "is_promotional")
@@ -52,8 +52,8 @@ public class Product extends AbstractEntity {
     @Column(name = "selling_price_lk")
     private Double sellingPriceLk;
 
-    @Column(name = "image_url")
-    private String imageUrl;
+    @Column(name = "image")
+    private String image;
 
     @Column(name = "discount_type", columnDefinition = "ENUM('VALUE', 'PERCENTAGE')")
     @Enumerated(EnumType.STRING)
@@ -74,7 +74,7 @@ public class Product extends AbstractEntity {
     @Column(name = "expire_duration")
     private Integer expireDuration;
 
-    @Column(name = "best_seller", columnDefinition = "BOOLEAN NOT NULL DEFAULT 'false'")
+    @Column(name = "best_seller", columnDefinition = "BOOLEAN NOT NULL DEFAULT 0")
     private Boolean bestSeller = Boolean.FALSE;
 
     @Column(name = "date_created")
