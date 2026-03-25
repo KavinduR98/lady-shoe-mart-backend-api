@@ -15,4 +15,6 @@ public interface BrandRepository extends JpaRepository<Brand, Long>, JpaSpecific
     Optional<Brand> findByBrandCode(String brandCode);
 
     List<Brand> findAllByIsActiveIsTrue(Sort var1);
+
+    Optional<Brand> findByIdAndIsActiveIsTrue(Long id);
 }

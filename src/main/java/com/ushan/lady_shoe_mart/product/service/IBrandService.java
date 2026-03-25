@@ -11,4 +11,8 @@ public interface IBrandService {
     ApiResponse<Brand> save(BrandRequest brand);
 
     List<Brand> findAllBrand();
+
+    ApiResponse<Brand> getBrand(Long id);
+
+    ApiResponse<Brand> update(Long id, BrandRequest brand);
 }
