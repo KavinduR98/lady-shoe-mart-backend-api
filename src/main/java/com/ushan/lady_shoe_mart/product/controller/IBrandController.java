@@ -3,10 +3,7 @@ package com.ushan.lady_shoe_mart.product.controller;
 import com.ushan.lady_shoe_mart.common.util.ApiResponse;
 import com.ushan.lady_shoe_mart.product.domain.Brand;
 import com.ushan.lady_shoe_mart.product.domain.request.BrandRequest;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -19,4 +16,12 @@ public interface IBrandController {
     @GetMapping("/brand")
     @ResponseBody
     List<Brand> findAllBrand();
+
+    @GetMapping("brand/{id}")
+    @ResponseBody
+    ApiResponse<Brand> getBrand(@PathVariable Long id);
+
+    @PutMapping("brand/{id}")
+    @ResponseBody
+    ApiResponse<Brand> update(@PathVariable Long id, @ModelAttribute BrandRequest brand);
 }

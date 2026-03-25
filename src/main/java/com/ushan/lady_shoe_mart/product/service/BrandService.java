@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -73,6 +74,62 @@ public class BrandService implements IBrandService{
                     brand.setImage(ShoeMartConstant.IMAGE_FOLDER_BRAND + "/" + brand.getImage());
                     return modelMapper.map(brand, Brand.class);
                 }).collect(Collectors.toList());
+    }
+
+    @Override
+    public ApiResponse<Brand> getBrand(Long id) {
+        ApiResponse<Brand> response = new ApiResponse<>();
+        if (id == null) {
+            throw new LsmException("Brand id can't be empty");
+        }
+        Optional<com.ushan.lady_shoe_mart.product.entity.Brand> brandEntity = brandRepository.findByIdAndIsActiveIsTrue(id);
+        if (brandEntity.isEmpty()) {
+            throw new LsmException("Brand isn't exist");
+        }
+        Brand mappedBrand = modelMapper.map(brandEntity.get(), Brand.class);
+        mappedBrand.setImage(ShoeMartConstant.IMAGE_FOLDER_BRAND + "/" + brandEntity.get().getImage());
+        response.setStatus(HttpStatus.OK.value());
+        response.setMessage("Brand retrieved successfully");
+        response.setObject(mappedBrand);
+        return response;
+    }
+
+    @Transactional
+    @Override
+    public ApiResponse<Brand> update(Long id, BrandRequest brand) {
+        ApiResponse<Brand> response = new ApiResponse<>();
+
+        if (id == null) {
+            throw new LsmException("Brand id can't be empty");
+        }
+        if (brand.getName() == null || brand.getName().isEmpty()) {
+            throw new LsmException("Brand name can't be empty");
+        }
+        if (brand.getActive() == null) {
+            throw new LsmException("Active status can't be empty");
+        }
+
+        com.ushan.lady_shoe_mart.product.entity.Brand brandEntity = brandRepository.findByIdAndIsActiveIsTrue(id)
+                        .orElseThrow(() -> new LsmException("Brand does not exist"));
+        brandEntity.setName(brand.getName());
+        brandEntity.setActive(brand.getActive());
+        brandEntity.setIndexSeq(
+                brand.getIndexSeq() == null || brand.getIndexSeq() < 1
+                        ? brandEntity.getIndexSeq()
+                        : brand.getIndexSeq());
+        brandEntity.setDateUpdated(new Date());
+
+        if (brand.getImage() != null) {
+            brandEntity.setImage(imageService.uploadFile(brand.getImage(), ShoeMartConstant.IMAGE_FOLDER_BRAND, ShoeMartConstant.IMAGE_PREFIX_BRAND));
+        }
+        brandRepository.save(brandEntity);
+        Brand mappedBrand = modelMapper.map(brandEntity, Brand.class);
+        mappedBrand.setImage(ShoeMartConstant.IMAGE_FOLDER_BRAND + "/" + brandEntity.getImage());
+
+        response.setStatus(HttpStatus.OK.value());
+        response.setMessage("Brand updated successfully");
+        response.setObject(mappedBrand);
+        return response;
     }
 
     private void brandCodeIsExist(String brandCode) {
