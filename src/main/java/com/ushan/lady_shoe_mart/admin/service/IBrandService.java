@@ -1,8 +1,8 @@
-package com.ushan.lady_shoe_mart.product.service;
+package com.ushan.lady_shoe_mart.admin.service;
 
 import com.ushan.lady_shoe_mart.common.util.ApiResponse;
-import com.ushan.lady_shoe_mart.product.domain.Brand;
-import com.ushan.lady_shoe_mart.product.domain.request.BrandRequest;
+import com.ushan.lady_shoe_mart.admin.domain.Brand;
+import com.ushan.lady_shoe_mart.admin.domain.request.BrandRequest;
 
 import java.util.List;
 
@@ -15,4 +15,6 @@ public interface IBrandService {
     ApiResponse<Brand> getBrand(Long id);
 
     ApiResponse<Brand> update(Long id, BrandRequest brand);
+
+    ApiResponse<Boolean> active(Long id, Boolean active);
 }

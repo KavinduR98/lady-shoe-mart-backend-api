@@ -1,11 +1,11 @@
-package com.ushan.lady_shoe_mart.product.service;
+package com.ushan.lady_shoe_mart.admin.service;
 
 import com.ushan.lady_shoe_mart.common.exception.LsmException;
 import com.ushan.lady_shoe_mart.common.util.ApiResponse;
 import com.ushan.lady_shoe_mart.common.util.ShoeMartConstant;
-import com.ushan.lady_shoe_mart.product.domain.Brand;
-import com.ushan.lady_shoe_mart.product.domain.request.BrandRequest;
-import com.ushan.lady_shoe_mart.product.repository.BrandRepository;
+import com.ushan.lady_shoe_mart.admin.domain.Brand;
+import com.ushan.lady_shoe_mart.admin.domain.request.BrandRequest;
+import com.ushan.lady_shoe_mart.admin.repository.BrandRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,7 +46,7 @@ public class BrandService implements IBrandService{
         } else {
             brandCodeIsExist(brand.getBrandCode());
         }
-        com.ushan.lady_shoe_mart.product.entity.Brand brandEntity = new com.ushan.lady_shoe_mart.product.entity.Brand();
+        com.ushan.lady_shoe_mart.admin.entity.Brand brandEntity = new com.ushan.lady_shoe_mart.admin.entity.Brand();
         brandEntity.setImage(imageService.uploadFile(brand.getImage(), ShoeMartConstant.IMAGE_FOLDER_BRAND, ShoeMartConstant.IMAGE_PREFIX_BRAND));
         brandEntity.setName(brand.getName());
         brandEntity.setBrandCode(brand.getBrandCode());
@@ -79,15 +79,11 @@ public class BrandService implements IBrandService{
     @Override
     public ApiResponse<Brand> getBrand(Long id) {
         ApiResponse<Brand> response = new ApiResponse<>();
-        if (id == null) {
-            throw new LsmException("Brand id can't be empty");
-        }
-        Optional<com.ushan.lady_shoe_mart.product.entity.Brand> brandEntity = brandRepository.findByIdAndIsActiveIsTrue(id);
-        if (brandEntity.isEmpty()) {
-            throw new LsmException("Brand isn't exist");
-        }
-        Brand mappedBrand = modelMapper.map(brandEntity.get(), Brand.class);
-        mappedBrand.setImage(ShoeMartConstant.IMAGE_FOLDER_BRAND + "/" + brandEntity.get().getImage());
+        if (id == null) throw new LsmException("Brand id can't be empty");
+        com.ushan.lady_shoe_mart.admin.entity.Brand brandEntity = findBrandById(id);
+
+        Brand mappedBrand = modelMapper.map(brandEntity, Brand.class);
+        mappedBrand.setImage(ShoeMartConstant.IMAGE_FOLDER_BRAND + "/" + brandEntity.getImage());
         response.setStatus(HttpStatus.OK.value());
         response.setMessage("Brand retrieved successfully");
         response.setObject(mappedBrand);
@@ -109,7 +105,7 @@ public class BrandService implements IBrandService{
             throw new LsmException("Active status can't be empty");
         }
 
-        com.ushan.lady_shoe_mart.product.entity.Brand brandEntity = brandRepository.findByIdAndIsActiveIsTrue(id)
+        com.ushan.lady_shoe_mart.admin.entity.Brand brandEntity = brandRepository.findByIdAndIsActiveIsTrue(id)
                         .orElseThrow(() -> new LsmException("Brand does not exist"));
         brandEntity.setName(brand.getName());
         brandEntity.setActive(brand.getActive());
@@ -130,6 +126,28 @@ public class BrandService implements IBrandService{
         response.setMessage("Brand updated successfully");
         response.setObject(mappedBrand);
         return response;
+    }
+
+    @Override
+    public ApiResponse<Boolean> active(Long id, Boolean active) {
+        ApiResponse<Boolean> response = new ApiResponse<>();
+        if (id == null) throw new LsmException("Brand id can't be empty");
+        else if (active == null) throw new LsmException("Active can't be empty");
+        com.ushan.lady_shoe_mart.admin.entity.Brand brand = findBrandById(id);
+        if (brand.getActive() == active) throw new LsmException("Brand Active status already updated");
+        brand.setActive(active);
+        brand.setDateUpdated(new Date());
+        brandRepository.save(brand);
+        response.setMessage("Successfully Updated Brand Active Status");
+        response.setObject(Boolean.TRUE);
+        response.setStatus(HttpStatus.OK.value());
+        return response;
+    }
+
+    private com.ushan.lady_shoe_mart.admin.entity.Brand findBrandById(Long id) {
+        Optional<com.ushan.lady_shoe_mart.admin.entity.Brand> optionalBrand = brandRepository.findById(id);
+        if (optionalBrand.isEmpty()) throw new LsmException("Brand not found");
+        return optionalBrand.get();
     }
 
     private void brandCodeIsExist(String brandCode) {

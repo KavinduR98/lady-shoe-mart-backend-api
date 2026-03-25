@@ -1,4 +1,4 @@
-package com.ushan.lady_shoe_mart.product.domain;
+package com.ushan.lady_shoe_mart.admin.domain;
 
 import com.ushan.lady_shoe_mart.common.util.AbstractModel;
 import com.ushan.lady_shoe_mart.common.util.enums.DiscountType;

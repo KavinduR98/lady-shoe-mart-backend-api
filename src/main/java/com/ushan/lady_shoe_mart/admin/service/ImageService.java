@@ -1,4 +1,4 @@
-package com.ushan.lady_shoe_mart.product.service;
+package com.ushan.lady_shoe_mart.admin.service;
 
 import com.ushan.lady_shoe_mart.common.exception.LsmException;
 import com.ushan.lady_shoe_mart.common.util.FileStore;

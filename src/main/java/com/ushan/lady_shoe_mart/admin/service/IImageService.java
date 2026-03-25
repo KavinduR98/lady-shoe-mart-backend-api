@@ -1,4 +1,4 @@
-package com.ushan.lady_shoe_mart.product.service;
+package com.ushan.lady_shoe_mart.admin.service;
 
 import org.springframework.web.multipart.MultipartFile;
 
