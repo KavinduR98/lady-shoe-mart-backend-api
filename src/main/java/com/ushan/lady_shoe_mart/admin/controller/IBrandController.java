@@ -1,8 +1,8 @@
-package com.ushan.lady_shoe_mart.product.controller;
+package com.ushan.lady_shoe_mart.admin.controller;
 
 import com.ushan.lady_shoe_mart.common.util.ApiResponse;
-import com.ushan.lady_shoe_mart.product.domain.Brand;
-import com.ushan.lady_shoe_mart.product.domain.request.BrandRequest;
+import com.ushan.lady_shoe_mart.admin.domain.Brand;
+import com.ushan.lady_shoe_mart.admin.domain.request.BrandRequest;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,4 +24,8 @@ public interface IBrandController {
     @PutMapping("brand/{id}")
     @ResponseBody
     ApiResponse<Brand> update(@PathVariable Long id, @ModelAttribute BrandRequest brand);
+
+    @PutMapping("/brand/active")
+    @ResponseBody
+    ApiResponse<Boolean> active(@RequestParam Long id, @RequestParam Boolean active);
 }

@@ -1,9 +1,9 @@
-package com.ushan.lady_shoe_mart.product.controller;
+package com.ushan.lady_shoe_mart.admin.controller;
 
 import com.ushan.lady_shoe_mart.common.util.ApiResponse;
-import com.ushan.lady_shoe_mart.product.domain.Brand;
-import com.ushan.lady_shoe_mart.product.domain.request.BrandRequest;
-import com.ushan.lady_shoe_mart.product.service.IBrandService;
+import com.ushan.lady_shoe_mart.admin.domain.Brand;
+import com.ushan.lady_shoe_mart.admin.domain.request.BrandRequest;
+import com.ushan.lady_shoe_mart.admin.service.IBrandService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,6 +36,11 @@ public class BrandController implements IBrandController{
     @Override
     public ApiResponse<Brand> update(Long id, BrandRequest brand) {
         return brandService.update(id, brand);
+    }
+
+    @Override
+    public ApiResponse<Boolean> active(Long id, Boolean active) {
+        return brandService.active(id, active);
     }
 
 }

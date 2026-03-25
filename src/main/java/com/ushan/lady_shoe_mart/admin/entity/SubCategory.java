@@ -1,4 +1,4 @@
-package com.ushan.lady_shoe_mart.product.entity;
+package com.ushan.lady_shoe_mart.admin.entity;
 
 import com.ushan.lady_shoe_mart.common.util.AbstractEntity;
 import jakarta.persistence.*;

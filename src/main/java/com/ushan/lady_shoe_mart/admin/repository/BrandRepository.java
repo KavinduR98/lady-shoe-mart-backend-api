@@ -1,6 +1,6 @@
-package com.ushan.lady_shoe_mart.product.repository;
+package com.ushan.lady_shoe_mart.admin.repository;
 
-import com.ushan.lady_shoe_mart.product.entity.Brand;
+import com.ushan.lady_shoe_mart.admin.entity.Brand;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;

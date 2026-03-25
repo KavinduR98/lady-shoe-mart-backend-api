@@ -1,4 +1,4 @@
-package com.ushan.lady_shoe_mart.product.domain.request;
+package com.ushan.lady_shoe_mart.admin.domain.request;
 
 import lombok.Getter;
 import lombok.Setter;
