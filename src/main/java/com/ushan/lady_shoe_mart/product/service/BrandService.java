@@ -9,12 +9,15 @@ import com.ushan.lady_shoe_mart.product.repository.BrandRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -60,6 +63,16 @@ public class BrandService implements IBrandService{
         response.setStatus(HttpStatus.CREATED.value());
         response.setObject(mappedBrand);
         return response;
+    }
+
+    @Override
+    public List<Brand> findAllBrand() {
+        Sort sort = Sort.by(Sort.Direction.ASC, "indexSeq");
+        return brandRepository.findAllByIsActiveIsTrue(sort).stream()
+                .map(brand -> {
+                    brand.setImage(ShoeMartConstant.IMAGE_FOLDER_BRAND + "/" + brand.getImage());
+                    return modelMapper.map(brand, Brand.class);
+                }).collect(Collectors.toList());
     }
 
     private void brandCodeIsExist(String brandCode) {
