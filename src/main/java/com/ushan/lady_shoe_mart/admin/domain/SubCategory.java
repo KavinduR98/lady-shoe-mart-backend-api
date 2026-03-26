@@ -4,21 +4,20 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.Date;
-import java.util.List;
 
 @Getter
 @Setter
-public class Category {
+public class SubCategory {
     private String name;
+    private String subCategoryCode;
+    private Long categoryId;
     private String categoryCode;
-    private String description;
-    private String imageLink;
-    private String bgColor;
-    private Integer indexSeq;
+    private String categoryName;
     private Boolean showOnWeb;
+    private String description;
+    private Integer indexSeq;
     private Boolean active;
+    private Date createdDate;
+    private Date updatedDate;
     private Boolean isActive;
-    private Date dateCreated;
-    private Date dateUpdated;
-    private List<SubCategory> subCategoryList;
 }
