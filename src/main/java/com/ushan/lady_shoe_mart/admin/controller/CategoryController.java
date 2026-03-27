@@ -7,6 +7,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 
 @RequestMapping("/api/v1")
 @RequiredArgsConstructor
@@ -18,5 +20,10 @@ public class CategoryController implements ICategoryController{
     @Override
     public ApiResponse<Category> save(Category category) {
         return categoryService.save(category);
+    }
+
+    @Override
+    public List<Category> findAllCategory() {
+        return categoryService.findAllCategory();
     }
 }
