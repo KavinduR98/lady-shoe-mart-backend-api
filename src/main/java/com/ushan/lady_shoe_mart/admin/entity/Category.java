@@ -34,6 +34,9 @@ public class Category extends AbstractEntity {
     @Column(name = "index_seq")
     private Integer indexSeq;
 
+    @Column(name = "show_on_web", columnDefinition = "BOOLEAN NOT NULL DEFAULT 1")
+    private Boolean showOnWeb = Boolean.TRUE;
+
     @Column(name = "active", columnDefinition = "BOOLEAN NOT NULL DEFAULT 0")
     private Boolean active = Boolean.FALSE;
 
