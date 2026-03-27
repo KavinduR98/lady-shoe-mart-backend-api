@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -76,6 +77,21 @@ public class CategoryService implements ICategoryService{
         response.setObject(imageLink);
         response.setStatus(HttpStatus.OK.value());
         response.setMessage("Successfully image upload");
+        return response;
+    }
+
+    @Override
+    public ApiResponse<Boolean> active(Long id, Boolean active) {
+        ApiResponse<Boolean> response = new ApiResponse<>();
+        if (active == null) throw new LsmException("Active status can't be empty");
+        com.ushan.lady_shoe_mart.admin.entity.Category categoryEntity = findCategoryById(id);
+        if (categoryEntity.getActive() == active) throw new LsmException("Already updated active status");
+        categoryEntity.setActive(active);
+        categoryEntity.setDateUpdated(new Date());
+        categoryRepository.save(categoryEntity);
+        response.setMessage("Successfully updated active status");
+        response.setObject(Boolean.TRUE);
+        response.setStatus(HttpStatus.OK.value());
         return response;
     }
 

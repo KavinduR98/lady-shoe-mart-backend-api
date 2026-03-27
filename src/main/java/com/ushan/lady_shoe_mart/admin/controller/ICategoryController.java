@@ -21,4 +21,9 @@ public interface ICategoryController {
     @PutMapping("/category/image/upload")
     @ResponseBody
     ApiResponse<String> categoryImageUpload(@RequestPart(value = "file")MultipartFile file, @RequestParam Long categoryId);
+
+    @PutMapping("/category/active")
+    @ResponseBody
+    ApiResponse<Boolean> active(@RequestParam Long id, @RequestParam Boolean active);
+
 }

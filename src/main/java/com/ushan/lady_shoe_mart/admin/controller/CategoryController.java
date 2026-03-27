@@ -32,4 +32,9 @@ public class CategoryController implements ICategoryController{
     public ApiResponse<String> categoryImageUpload(MultipartFile file, Long categoryId) {
         return categoryService.categoryImageUpload(file, categoryId);
     }
+
+    @Override
+    public ApiResponse<Boolean> active(Long id, Boolean active) {
+        return categoryService.active(id, active);
+    }
 }
