@@ -6,6 +6,7 @@ import com.ushan.lady_shoe_mart.common.util.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -25,5 +26,10 @@ public class CategoryController implements ICategoryController{
     @Override
     public List<Category> findAllCategory() {
         return categoryService.findAllCategory();
+    }
+
+    @Override
+    public ApiResponse<String> categoryImageUpload(MultipartFile file, Long categoryId) {
+        return categoryService.categoryImageUpload(file, categoryId);
     }
 }

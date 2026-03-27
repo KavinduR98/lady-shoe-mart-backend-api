@@ -9,9 +9,11 @@ import com.ushan.lady_shoe_mart.common.util.ShoeMartConstant;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -23,6 +25,10 @@ public class CategoryService implements ICategoryService{
 
     private final CategoryRepository categoryRepository;
     private final ModelMapper modelMapper;
+    private final IImageService imageService;
+
+    @Value("IMAGE_BASE_URL")
+    private String baseurl;
 
     @Override
     public ApiResponse<Category> save(Category category) {
@@ -55,6 +61,27 @@ public class CategoryService implements ICategoryService{
     @Override
     public List<Category> findAllCategory() {
         return categoryRepository.findAllByIsActiveIsTrue().stream().map(this::categoryMapper).collect(Collectors.toList());
+    }
+
+    @Transactional
+    @Override
+    public ApiResponse<String> categoryImageUpload(MultipartFile file, Long categoryId) {
+        ApiResponse<String> response = new ApiResponse<>();
+        com.ushan.lady_shoe_mart.admin.entity.Category categoryEntity = findCategoryById(categoryId);
+        String imageName = imageService.uploadFile(file, ShoeMartConstant.IMAGE_FOLDER_CATEGORY, ShoeMartConstant.IMAGE_PREFIX_CATEGORY);
+        categoryEntity.setImageLink(imageName);
+        String imageLink = baseurl + ShoeMartConstant.IMAGE_FOLDER_CATEGORY + "/" + imageName;
+        categoryRepository.save(categoryEntity);
+        log.info("Successfully image upload: {}", imageLink);
+        response.setObject(imageLink);
+        response.setStatus(HttpStatus.OK.value());
+        response.setMessage("Successfully image upload");
+        return response;
+    }
+
+    private com.ushan.lady_shoe_mart.admin.entity.Category findCategoryById(Long categoryId) {
+        if (categoryId == null || categoryId == 0) throw new LsmException("Id can't be empty");
+        return categoryRepository.findById(categoryId).orElseThrow(()-> new LsmException("Category not found"));
     }
 
     private Category categoryMapper(com.ushan.lady_shoe_mart.admin.entity.Category category) {
