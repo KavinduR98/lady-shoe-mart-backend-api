@@ -15,4 +15,6 @@ public interface ICategoryService {
     ApiResponse<String> categoryImageUpload(MultipartFile file, Long categoryId);
 
     ApiResponse<Boolean> active(Long id, Boolean active);
+
+    ApiResponse<Category> updateCategory(Category category);
 }

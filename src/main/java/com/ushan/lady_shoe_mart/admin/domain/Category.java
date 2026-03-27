@@ -1,5 +1,6 @@
 package com.ushan.lady_shoe_mart.admin.domain;
 
+import com.ushan.lady_shoe_mart.common.util.AbstractModel;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,7 +9,7 @@ import java.util.List;
 
 @Getter
 @Setter
-public class Category {
+public class Category extends AbstractModel {
     private String name;
     private String categoryCode;
     private String description;

@@ -26,4 +26,8 @@ public interface ICategoryController {
     @ResponseBody
     ApiResponse<Boolean> active(@RequestParam Long id, @RequestParam Boolean active);
 
+    @PutMapping("/category")
+    @ResponseBody
+    ApiResponse<Category> updateCategory(@RequestBody Category category);
+
 }

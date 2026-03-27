@@ -95,6 +95,34 @@ public class CategoryService implements ICategoryService{
         return response;
     }
 
+    @Override
+    public ApiResponse<Category> updateCategory(Category category) {
+        ApiResponse<Category> response = new ApiResponse<>();
+        if (category.getName() == null) {
+            throw new LsmException("Category name can't be empty!");
+        }
+        if (category.getCategoryCode() == null) {
+            throw new LsmException("Category code can't be empty");
+        }
+        com.ushan.lady_shoe_mart.admin.entity.Category existingCategory = findCategoryById(category.getId());
+        if (!existingCategory.getName().equalsIgnoreCase(category.getName())) {
+            com.ushan.lady_shoe_mart.admin.entity.Category categoryFindByName = categoryRepository.findByNameIgnoreCase(category.getName());
+            if (categoryFindByName != null) throw new LsmException("Category name exist, change the name and retry!");
+        }
+        if (!existingCategory.getCategoryCode().equalsIgnoreCase(category.getCategoryCode())) {
+            Boolean categoryCodeExist = categoryRepository.existsByCategoryCodeIgnoreCase(category.getCategoryCode());
+            if (categoryCodeExist) throw new LsmException("Category code exist, change the name and retry!");
+        }
+        modelMapper.map(category, existingCategory);
+        existingCategory.setDateUpdated(new Date());
+        categoryRepository.save(existingCategory);
+        log.info("Category updated Successfully : {}", existingCategory.getId());
+        response.setMessage("Category updated Successfully");
+        response.setStatus(HttpStatus.OK.value());
+        response.setObject(categoryMapper(existingCategory));
+        return response;
+    }
+
     private com.ushan.lady_shoe_mart.admin.entity.Category findCategoryById(Long categoryId) {
         if (categoryId == null || categoryId == 0) throw new LsmException("Id can't be empty");
         return categoryRepository.findById(categoryId).orElseThrow(()-> new LsmException("Category not found"));

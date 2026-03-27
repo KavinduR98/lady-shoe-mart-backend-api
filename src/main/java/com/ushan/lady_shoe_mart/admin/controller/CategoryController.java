@@ -37,4 +37,9 @@ public class CategoryController implements ICategoryController{
     public ApiResponse<Boolean> active(Long id, Boolean active) {
         return categoryService.active(id, active);
     }
+
+    @Override
+    public ApiResponse<Category> updateCategory(Category category) {
+        return categoryService.updateCategory(category);
+    }
 }
