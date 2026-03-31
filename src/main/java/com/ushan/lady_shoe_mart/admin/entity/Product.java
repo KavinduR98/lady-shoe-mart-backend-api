@@ -82,6 +82,18 @@ public class Product extends AbstractEntity {
     @Column(name = "expire_duration")
     private Integer expireDuration;
 
+    @Column(name = "new_arrival")
+    private Boolean newArrival;
+
+    @Column(name = "child_product")
+    private Boolean childProduct;
+
+    @Column(name = "min_order_level")
+    private Double minOrderLevel;
+
+    @Column(name = "max_order_level")
+    private Double maxOrderLevel;
+
     @Column(name = "best_seller", columnDefinition = "BOOLEAN NOT NULL DEFAULT 0")
     private Boolean bestSeller = Boolean.FALSE;
 

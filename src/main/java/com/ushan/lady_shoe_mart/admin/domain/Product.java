@@ -21,6 +21,10 @@ public class Product extends AbstractModel {
     private Boolean isActive;
     private Double stock;
     private Boolean active;
+    private Boolean newArrival;
+    private Boolean childProduct;
+    private Double minOrderLevel;
+    private Double maxOrderLevel;
     private Boolean isPromotional;
     private String shortDescription;
     private String longDescription;
