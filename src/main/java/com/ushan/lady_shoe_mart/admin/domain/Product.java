@@ -11,6 +11,12 @@ import java.util.Date;
 @Setter
 public class Product extends AbstractModel {
     private String productNumber;
+    private Long categoryId;
+    private String categoryName;
+    private String categoryCode;
+    private Long subCategoryId;
+    private String subCategoryCode;
+    private String subCategoryName;
     private String productName;
     private Boolean isActive;
     private Double stock;
