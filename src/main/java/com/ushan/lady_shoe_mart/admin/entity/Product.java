@@ -19,6 +19,14 @@ public class Product extends AbstractEntity {
     @Column(name = "product_name")
     private String productName;
 
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "category", referencedColumnName = "id")
+    private Category category;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "sub_category", referencedColumnName = "id")
+    private SubCategory subCategory;
+
     @Column(name = "is_active", columnDefinition = "BOOLEAN NOT NULL DEFAULT 1")
     private Boolean isActive = Boolean.TRUE;
 
