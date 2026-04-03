@@ -10,7 +10,7 @@ import java.util.List;
 
 @Getter
 @Setter
-@Entity
+@Entity(name = "brand")
 public class Brand extends AbstractEntity {
 
     @Column(name = "brand_code", unique = true, length = 20)

@@ -55,6 +55,10 @@ public class Product extends AbstractEntity {
     @Column(name = "image")
     private String image;
 
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "supplier", referencedColumnName = "id")
+    private Supplier supplier;
+
     @Column(name = "discount_type", columnDefinition = "ENUM('VALUE', 'PERCENTAGE')")
     @Enumerated(EnumType.STRING)
     private DiscountType discountType;
