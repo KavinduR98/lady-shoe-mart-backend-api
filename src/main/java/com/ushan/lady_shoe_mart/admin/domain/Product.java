@@ -17,6 +17,8 @@ public class Product extends AbstractModel {
     private Long subCategoryId;
     private String subCategoryCode;
     private String subCategoryName;
+    private Long supplierId;
+    private String supplierName;
     private String productName;
     private Boolean isActive;
     private Double stock;
