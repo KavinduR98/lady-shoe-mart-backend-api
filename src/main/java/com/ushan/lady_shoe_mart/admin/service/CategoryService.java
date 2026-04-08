@@ -47,8 +47,8 @@ public class CategoryService implements ICategoryService{
         if (category.getActive() == null) throw new LsmException("Active can't be empty");
         com.ushan.lady_shoe_mart.admin.entity.Category categoryEntity = modelMapper.map(category, com.ushan.lady_shoe_mart.admin.entity.Category.class);
         categoryEntity.setCategoryCode(category.getCategoryCode().toUpperCase());
-        categoryEntity.setDateCreated(category.getDateCreated());
-        categoryEntity.setDateUpdated(category.getDateUpdated());
+        categoryEntity.setDateCreated(new Date());
+        categoryEntity.setDateUpdated(new Date());
         categoryEntity.setIsActive(category.getIsActive());
         categoryRepository.save(categoryEntity);
 
