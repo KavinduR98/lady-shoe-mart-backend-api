@@ -34,7 +34,7 @@ public class Product extends AbstractModel {
     private Boolean outOfSock;
     private Double costPrice;
     private Double sellingPriceLk;
-    private String image;
+    private ProductImage image;
     private DiscountType discountType;
     private Double discountedPrice;
     private Boolean discountedTimer;

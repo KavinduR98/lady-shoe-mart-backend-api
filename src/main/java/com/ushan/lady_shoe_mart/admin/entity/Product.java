@@ -1,5 +1,7 @@
 package com.ushan.lady_shoe_mart.admin.entity;
 
+import com.ushan.lady_shoe_mart.admin.domain.ProductImage;
+import com.ushan.lady_shoe_mart.common.converter.ProductImageConvertor;
 import com.ushan.lady_shoe_mart.common.util.AbstractEntity;
 import com.ushan.lady_shoe_mart.common.util.enums.DiscountType;
 import jakarta.persistence.*;
@@ -60,8 +62,9 @@ public class Product extends AbstractEntity {
     @Column(name = "selling_price_lk")
     private Double sellingPriceLk;
 
-    @Column(name = "image")
-    private String image;
+    @Convert(converter = ProductImageConvertor.class)
+    @Column(name = "images", columnDefinition = "json")
+    private ProductImage image;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "supplier", referencedColumnName = "id")
