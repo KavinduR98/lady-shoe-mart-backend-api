@@ -9,7 +9,7 @@ import java.util.Date;
 @Getter
 @Setter
 public class RolePermission extends AbstractModel {
-    private Integer roleId;
+    private Long roleId;
     private String roleName;
     private Long permissionId;
     private String permissionName;
