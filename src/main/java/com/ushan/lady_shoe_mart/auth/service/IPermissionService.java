@@ -1,15 +1,15 @@
 package com.ushan.lady_shoe_mart.auth.service;
 
-import com.ushan.lady_shoe_mart.auth.domain.Permission;
+import com.ushan.lady_shoe_mart.auth.domain.PermissionDto;
 import com.ushan.lady_shoe_mart.auth.domain.response.PermissionResponse;
 
 import java.util.List;
 
 public interface IPermissionService {
 
-    List<Permission> save(List<Permission> permission);
+    List<PermissionDto> save(List<PermissionDto> permission);
 
-    List<Permission> findAllPermission();
+    List<PermissionDto> findAllPermission();
 
     List<PermissionResponse> findAllPermissionGroup();
 }

@@ -8,7 +8,7 @@ import java.util.Date;
 
 @Getter
 @Setter
-public class RolePermission extends AbstractModel {
+public class RolePermissionDto extends AbstractModel {
     private Long roleId;
     private String roleName;
     private Long permissionId;

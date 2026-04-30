@@ -1,6 +1,6 @@
 package com.ushan.lady_shoe_mart.auth.controller;
 
-import com.ushan.lady_shoe_mart.auth.domain.Role;
+import com.ushan.lady_shoe_mart.auth.domain.RoleDto;
 import com.ushan.lady_shoe_mart.common.util.ApiResponse;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,17 +10,17 @@ public interface IRoleController {
 
     @PostMapping("/role")
     @ResponseBody
-    ApiResponse<Role> save(@RequestBody Role role);
+    ApiResponse<RoleDto> save(@RequestBody RoleDto role);
 
     @GetMapping("/role")
     @ResponseBody
-    List<Role> findAllRole();
+    List<RoleDto> findAllRole();
 
     @GetMapping("/roleId")
     @ResponseBody
-    Role findAllRoleById(@RequestParam Long roleId);
+    RoleDto findAllRoleById(@RequestParam Long roleId);
 
     @PutMapping("/role")
     @ResponseBody
-    ApiResponse<Role> update(@RequestBody Role role);
+    ApiResponse<RoleDto> update(@RequestBody RoleDto role);
 }

@@ -1,6 +1,7 @@
 package com.ushan.lady_shoe_mart.auth.service;
 
-import com.ushan.lady_shoe_mart.auth.domain.Role;
+import com.ushan.lady_shoe_mart.auth.domain.RoleDto;
+import com.ushan.lady_shoe_mart.auth.domain.RolePermissionDto;
 import com.ushan.lady_shoe_mart.auth.entity.Permission;
 import com.ushan.lady_shoe_mart.auth.entity.RolePermission;
 import com.ushan.lady_shoe_mart.auth.repository.PermissionRepository;
@@ -31,16 +32,16 @@ public class RoleService implements IRoleService{
 
     @Transactional
     @Override
-    public ApiResponse<Role> save(Role role) {
-        ApiResponse<Role> response = new ApiResponse<>();
+    public ApiResponse<RoleDto> save(RoleDto role) {
+        ApiResponse<RoleDto> response = new ApiResponse<>();
 
         if (role.getName() == null) {
-            throw new LsmException("Role name is can't be empty!");
+            throw new LsmException("RoleDto name is can't be empty!");
         }
 
         com.ushan.lady_shoe_mart.auth.entity.Role roleNameExist = roleRepository.findByName(role.getName());
         if (roleNameExist != null) {
-            throw new LsmException("Role name exist, change the role name and retry!");
+            throw new LsmException("RoleDto name exist, change the role name and retry!");
         }
         com.ushan.lady_shoe_mart.auth.entity.Role roleDao = new com.ushan.lady_shoe_mart.auth.entity.Role();
         roleDao.setName(role.getName());
@@ -51,17 +52,17 @@ public class RoleService implements IRoleService{
         roleDao.setIsSuper(role.getIsSuper() );
         List<RolePermission> rolePermissionList = new ArrayList<>();
         if (role.getRolePermissionList() != null) {
-            for (com.ushan.lady_shoe_mart.auth.domain.RolePermission rolePermission : role.getRolePermissionList()) {
+            for (RolePermissionDto rolePermission : role.getRolePermissionList()) {
                 if (rolePermission.getPermissionId() == null) {
-                    throw new LsmException("Permission Id can't be empty!");
+                    throw new LsmException("PermissionDto Id can't be empty!");
                 }
                 Boolean rolePermissionExist = rolePermissionRepository.existsByPermission_IdAndRole_IdAndIsActiveIsTrue(rolePermission.getPermissionId(), roleDao.getId());
                 if (rolePermissionExist) {
-                    throw new LsmException("Role permission exist!");
+                    throw new LsmException("RoleDto permission exist!");
                 }
                 Optional<Permission> permissionOptional = permissionRepository.findById(rolePermission.getPermissionId());
                 if (permissionOptional.isEmpty()) {
-                    throw new LsmException("Permission not found!");
+                    throw new LsmException("PermissionDto not found!");
                 }
                 RolePermission rolePermissionDao = new RolePermission();
                 rolePermissionDao.setRole(roleDao);
@@ -86,34 +87,34 @@ public class RoleService implements IRoleService{
 
     @Override
     @Transactional(readOnly = true)
-    public List<Role> findAllRole() {
+    public List<RoleDto> findAllRole() {
         List<com.ushan.lady_shoe_mart.auth.entity.Role> roleDaoList = roleRepository.findAllByActiveIsTrueAndIsActiveIsTrue();
         return roleDaoList.stream().map(this::roleMapper).collect(Collectors.toList());
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Role findAllRoleById(Long roleId) {
+    public RoleDto findAllRoleById(Long roleId) {
         com.ushan.lady_shoe_mart.auth.entity.Role role = roleRepository.findByIdAndActiveIsTrueAndIsActiveIsTrueAndRolePermissionList_ActiveIsTrueAndRolePermissionList_IsActiveIsTrue(roleId);
         return roleMapper(role);
     }
 
     @Override
     @Transactional
-    public ApiResponse<Role> update(Role role) {
-        ApiResponse<Role> response = new ApiResponse<>();
+    public ApiResponse<RoleDto> update(RoleDto role) {
+        ApiResponse<RoleDto> response = new ApiResponse<>();
         if (role.getId() == null) {
-            throw new LsmException("Role id is empty!");
+            throw new LsmException("RoleDto id is empty!");
         }
         Optional<com.ushan.lady_shoe_mart.auth.entity.Role> roleOptional = roleRepository.findById(role.getId());
         if (roleOptional.isEmpty()) {
-            throw new LsmException("Role not found!");
+            throw new LsmException("RoleDto not found!");
         }
         com.ushan.lady_shoe_mart.auth.entity.Role roleDao = roleOptional.get();
         if (!roleDao.getName().equals(role.getName())) {
             com.ushan.lady_shoe_mart.auth.entity.Role roleNameExist = roleRepository.findByName(role.getName());
             if (roleNameExist != null) {
-                throw new LsmException("Role name exist, change the role name and retry!");
+                throw new LsmException("RoleDto name exist, change the role name and retry!");
             }
             roleDao.setName(role.getName());
         }
@@ -129,25 +130,25 @@ public class RoleService implements IRoleService{
         roleDao.setDateUpdated(new Date());
         List<RolePermission> rolePermissionList = new ArrayList<>();
         if (role.getRolePermissionList() != null) {
-            for (com.ushan.lady_shoe_mart.auth.domain.RolePermission rolePermission : role.getRolePermissionList()) {
+            for (RolePermissionDto rolePermission : role.getRolePermissionList()) {
                 if (rolePermission.getId() != null) {
                     if (rolePermission.getPermissionId() == null) {
-                        throw new LsmException("Permission Id can't be empty!");
+                        throw new LsmException("PermissionDto Id can't be empty!");
                     }
                     Optional<RolePermission> rolePermissionOptional = rolePermissionRepository.findById(rolePermission.getId());
                     if (rolePermissionOptional.isEmpty()) {
-                        throw new LsmException("Role permission not found!");
+                        throw new LsmException("RoleDto permission not found!");
                     }
                     RolePermission rolePermissionDao = rolePermissionOptional.get();
                     rolePermissionDao.setRole(roleDao);
                     if (!rolePermissionDao.getPermission().getId().equals(rolePermission.getPermissionId())) {
                         Boolean rolePermissionExist = rolePermissionRepository.existsByPermission_IdAndRole_IdAndIsActiveIsTrue(rolePermission.getPermissionId(), roleDao.getId());
                         if (rolePermissionExist) {
-                            throw new LsmException("Role permission exist!");
+                            throw new LsmException("RoleDto permission exist!");
                         }
                         Optional<Permission> permissionOptional = permissionRepository.findById(rolePermission.getPermissionId());
                         if (permissionOptional.isEmpty()) {
-                            throw new LsmException("Permission not found!");
+                            throw new LsmException("PermissionDto not found!");
                         }
                     }
                     rolePermissionDao.setDateUpdated(new Date());
@@ -156,15 +157,15 @@ public class RoleService implements IRoleService{
                     rolePermissionList.add(rolePermissionDao);
                 } else {
                     if (rolePermission.getPermissionId() == null) {
-                        throw new LsmException("Permission Id can't be empty!");
+                        throw new LsmException("PermissionDto Id can't be empty!");
                     }
                     Boolean rolePermissionExist = rolePermissionRepository.existsByPermission_IdAndRole_IdAndIsActiveIsTrue(rolePermission.getPermissionId(), roleDao.getId());
                     if (rolePermissionExist) {
-                        throw new LsmException("Role permission exist!");
+                        throw new LsmException("RoleDto permission exist!");
                     }
                     Optional<Permission> permissionOptional = permissionRepository.findById(rolePermission.getPermissionId());
                     if (permissionOptional.isEmpty()) {
-                        throw new LsmException("Permission not found!");
+                        throw new LsmException("PermissionDto not found!");
                     }
                     RolePermission rolePermissionDao = new RolePermission();
                     rolePermissionDao.setRole(roleDao);
@@ -186,13 +187,13 @@ public class RoleService implements IRoleService{
         return response;
     }
 
-    private Role roleMapper(com.ushan.lady_shoe_mart.auth.entity.Role roleEntity) {
-        Role role = modelMapper.map(roleEntity, Role.class);
-        List<com.ushan.lady_shoe_mart.auth.domain.RolePermission> rolePermissionList = new ArrayList<>();
+    private RoleDto roleMapper(com.ushan.lady_shoe_mart.auth.entity.Role roleEntity) {
+        RoleDto role = modelMapper.map(roleEntity, RoleDto.class);
+        List<RolePermissionDto> rolePermissionList = new ArrayList<>();
         if (roleEntity.getRolePermissionList() != null && !roleEntity.getRolePermissionList().isEmpty()) {
              for (RolePermission rolePermission : roleEntity.getRolePermissionList()) {
                 if (rolePermission.getIsActive() != null && rolePermission.getIsActive()) {
-                    com.ushan.lady_shoe_mart.auth.domain.RolePermission permission = modelMapper.map(rolePermission, com.ushan.lady_shoe_mart.auth.domain.RolePermission.class);
+                    RolePermissionDto permission = modelMapper.map(rolePermission, RolePermissionDto.class);
                     rolePermissionList.add(permission);
                 }
              }

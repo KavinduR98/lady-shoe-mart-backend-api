@@ -1,6 +1,6 @@
 package com.ushan.lady_shoe_mart.auth.controller;
 
-import com.ushan.lady_shoe_mart.auth.domain.Permission;
+import com.ushan.lady_shoe_mart.auth.domain.PermissionDto;
 import com.ushan.lady_shoe_mart.auth.domain.response.PermissionResponse;
 import com.ushan.lady_shoe_mart.auth.service.IPermissionService;
 import lombok.RequiredArgsConstructor;
@@ -17,12 +17,12 @@ public class PermissionController implements IPermissionController{
     private final IPermissionService permissionService;
 
     @Override
-    public List<Permission> save(List<Permission> permission) {
+    public List<PermissionDto> save(List<PermissionDto> permission) {
         return permissionService.save(permission);
     }
 
     @Override
-    public List<Permission> findAllPermission() {
+    public List<PermissionDto> findAllPermission() {
         return permissionService.findAllPermission();
     }
 

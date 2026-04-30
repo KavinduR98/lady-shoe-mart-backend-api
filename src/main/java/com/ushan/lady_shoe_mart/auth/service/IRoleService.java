@@ -1,17 +1,17 @@
 package com.ushan.lady_shoe_mart.auth.service;
 
-import com.ushan.lady_shoe_mart.auth.domain.Role;
+import com.ushan.lady_shoe_mart.auth.domain.RoleDto;
 import com.ushan.lady_shoe_mart.common.util.ApiResponse;
 
 import java.util.List;
 
 public interface IRoleService {
 
-    ApiResponse<Role> save(Role role);
+    ApiResponse<RoleDto> save(RoleDto role);
 
-    List<Role> findAllRole();
+    List<RoleDto> findAllRole();
 
-    Role findAllRoleById(Long roleId);
+    RoleDto findAllRoleById(Long roleId);
 
-    ApiResponse<Role> update(Role role);
+    ApiResponse<RoleDto> update(RoleDto role);
 }

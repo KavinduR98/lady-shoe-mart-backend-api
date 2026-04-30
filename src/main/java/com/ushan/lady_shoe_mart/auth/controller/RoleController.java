@@ -1,6 +1,6 @@
 package com.ushan.lady_shoe_mart.auth.controller;
 
-import com.ushan.lady_shoe_mart.auth.domain.Role;
+import com.ushan.lady_shoe_mart.auth.domain.RoleDto;
 import com.ushan.lady_shoe_mart.auth.service.IRoleService;
 import com.ushan.lady_shoe_mart.common.util.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -19,22 +19,22 @@ public class RoleController implements IRoleController{
     private final IRoleService roleService;
 
     @Override
-    public ApiResponse<Role> save(Role role) {
+    public ApiResponse<RoleDto> save(RoleDto role) {
         return roleService.save(role);
     }
 
     @Override
-    public List<Role> findAllRole() {
+    public List<RoleDto> findAllRole() {
         return roleService.findAllRole();
     }
 
     @Override
-    public Role findAllRoleById(Long roleId) {
+    public RoleDto findAllRoleById(Long roleId) {
         return roleService.findAllRoleById(roleId);
     }
 
     @Override
-    public ApiResponse<Role> update(Role role) {
+    public ApiResponse<RoleDto> update(RoleDto role) {
         return roleService.update(role);
     }
 }
