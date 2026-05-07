@@ -26,7 +26,6 @@ public class UserService implements IUserService{
     private final ModelMapper modelMapper;
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
-    private final RoleRepository roleRepository;
 
     @Transactional
     @Override
