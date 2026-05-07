@@ -17,5 +17,5 @@ public class RoleDto extends AbstractModel {
     private Boolean isActive;
     private Boolean isSuper;
     private List<RolePermissionDto> rolePermissionList;
-    private List<User> userList;
+    private List<UserDto> userList;
 }
