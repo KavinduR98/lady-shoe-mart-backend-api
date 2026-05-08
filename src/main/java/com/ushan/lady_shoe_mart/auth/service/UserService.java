@@ -1,6 +1,7 @@
 package com.ushan.lady_shoe_mart.auth.service;
 
 import com.ushan.lady_shoe_mart.auth.domain.UserDto;
+import com.ushan.lady_shoe_mart.auth.domain.request.UserPrincipal;
 import com.ushan.lady_shoe_mart.auth.entity.Role;
 import com.ushan.lady_shoe_mart.auth.entity.User;
 import com.ushan.lady_shoe_mart.auth.repository.RoleRepository;
@@ -10,6 +11,8 @@ import com.ushan.lady_shoe_mart.common.util.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -93,5 +96,14 @@ public class UserService implements IUserService{
         response.setMessage("User updated successfully!");
         response.setObject(modelMapper.map(userDao, UserDto.class));
         return response;
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        User user = userRepository.findByEmail(username);
+        if (user != null) {
+            return new UserPrincipal(user);
+        }
+        throw new UsernameNotFoundException("User not found with the name" + username);
     }
 }
