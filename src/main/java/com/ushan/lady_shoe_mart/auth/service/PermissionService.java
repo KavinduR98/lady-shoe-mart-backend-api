@@ -74,14 +74,14 @@ public class PermissionService implements IPermissionService{
     @Transactional(readOnly = true)
     @Override
     public List<PermissionDto> findAllPermission() {
-        List<com.ushan.lady_shoe_mart.auth.entity.Permission> permissionList = permissionRepository.findAllIsActiveIsTrueAndActiveIsTrue();
+        List<com.ushan.lady_shoe_mart.auth.entity.Permission> permissionList = permissionRepository.findAllByIsActiveIsTrueAndActiveIsTrue();
         return permissionList.stream().map(m -> modelMapper.map(m, PermissionDto.class)).collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)
     @Override
     public List<PermissionResponse> findAllPermissionGroup() {
-        List<com.ushan.lady_shoe_mart.auth.entity.Permission> permissionList = permissionRepository.findAllIsActiveIsTrueAndActiveIsTrue();
+        List<com.ushan.lady_shoe_mart.auth.entity.Permission> permissionList = permissionRepository.findAllByIsActiveIsTrueAndActiveIsTrue();
         Map<PermissionCategory, List<PermissionDto>> permissionMap = new HashMap<>();
         for (com.ushan.lady_shoe_mart.auth.entity.Permission permission : permissionList) {
             PermissionCategory key = permission.getPermissionCategory();

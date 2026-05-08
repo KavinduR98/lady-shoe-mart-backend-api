@@ -14,5 +14,5 @@ public interface PermissionRepository extends JpaRepository<Permission, Long>, J
 
     Boolean existsByValueAndActiveIsTrueAndIsActiveTrue(String permissionValue);
 
-    List<Permission> findAllIsActiveIsTrueAndActiveIsTrue();
+    List<Permission> findAllByIsActiveIsTrueAndActiveIsTrue();
 }
